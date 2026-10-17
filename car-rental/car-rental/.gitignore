@@ -1,7 +1,0 @@
-target/
-data/
-data-standalone/
-out/
-*.class
-.idea/
-*.iml

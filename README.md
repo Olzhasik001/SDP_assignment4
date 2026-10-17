@@ -70,10 +70,6 @@ Our problem is different: the client has no expected interface to match. Three u
 * Persistence reload: `restartWhileChainIsPendingCUndoesBThenA` (reopens the stores via `restartApplication()` and recovers from persisted status).
 * Coverage: JaCoCo (`mvn test`, report in `target/site/jacoco/index.html`).
 
-## UML
-
-`docs/class-diagram.puml` (PlantUML). Render to PNG/SVG at https://www.plantuml.com/plantuml and add the image to `docs/`.
-
 ## Standalone subsystems
 
 `rental.fleet.FleetMain`, `rental.billing.BillingMain`, `rental.handover.HandoverMain` each use one subsystem without the facade or the other two.
