@@ -43,7 +43,7 @@ public class ConsoleApp {
                     case "1" -> System.out.println("RESULT: " + sys.rental().rentCar(ask(in)));
                     case "2" -> sys.admin().listOrders().forEach(System.out::println);
                     case "3" -> { System.out.print("Order id: "); System.out.println(sys.admin().inspect(Long.parseLong(in.nextLine().trim()))); }
-                    case "4" -> sys.fleet().cars().forEach(System.out::println);
+                    case "4" -> sys.admin().fleet().forEach(System.out::println);
                     case "5" -> { System.out.print("Order id: "); System.out.println(sys.admin().manualCompensate(Long.parseLong(in.nextLine().trim()))); }
                     case "6" -> { var r = sys.admin().recoverPending(); System.out.println(r.isEmpty() ? "Nothing to recover" : ""); r.forEach(System.out::println); }
                     case "7" -> run(sys, preset("Economy", 10, 30, 5));

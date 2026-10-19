@@ -2,6 +2,7 @@ package rental.facade;
 
 import java.util.ArrayList;
 import java.util.List;
+import rental.fleet.Car;
 import rental.billing.DepositHandler;
 import rental.facade.RentalOrder.ChainStatus;
 import rental.fleet.FleetAvailabilityTracker;
@@ -70,7 +71,7 @@ public class RentalAdminFacade {
         }
         return recovered;
     }
-
+    public List<Car> fleet() { return fleet.cars(); }
     private void undoCBA(long id) {
         inspector.voidByOrder(id);
         gps.releaseByOrder(id);
