@@ -12,8 +12,8 @@ public record RentalSystem(RentalFacade rental, RentalAdminFacade admin, FleetAv
 
     /** Opening the same directory again = "restarting the application". */
     public static RentalSystem open(Path dataDir) {
-        var fleet = new FleetAvailabilityTracker(new ReservationRepository(dataDir), new PricingEngine());
-        var billing = new DepositHandler(new BillingRepository(dataDir), new InsuranceCalculator());
+        var fleet = new FleetAvailabilityTracker(new ReservationRepository(dataDir), new PricingEngine(() -> 1.0));
+        var billing = new DepositHandler(new BillingRepository(dataDir), new InsuranceCalculator(() -> false));
         var handoverRepo = new HandoverRepository(dataDir);
         var inspector = new DamageInspector(handoverRepo, new DamageRules());
         var gps = new GpsTracker(handoverRepo);

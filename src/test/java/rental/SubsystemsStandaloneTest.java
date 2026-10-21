@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import rental.billing.*;
+import rental.billing.strategy.*;
 import rental.fleet.*;
+import rental.fleet.strategy.*;
 import rental.handover.*;
 
 /** Each subsystem works on its own, without the facade and without the other two. */
@@ -17,7 +19,7 @@ class SubsystemsStandaloneTest {
     @TempDir Path dir;
 
     // ---------------- A ----------------
-    FleetAvailabilityTracker fleet() { return new FleetAvailabilityTracker(new ReservationRepository(dir), new PricingEngine()); }
+    FleetAvailabilityTracker fleet() { return new FleetAvailabilityTracker(new ReservationRepository(dir), new PricingEngine(() -> 1.0)); }
 
     @Test void fleetReservesAndPricesCar() {
         Reservation r = fleet().reserve(1, "Economy", D1, D4);
@@ -51,14 +53,14 @@ class SubsystemsStandaloneTest {
     @Test void fleetListsSeededCars() { assertEquals(4, fleet().cars().size()); }
 
     @Test void pricingGivesWeeklyDiscountAndRejectsBadDates() {
-        var p = new PricingEngine();
-        assertEquals(189.0, p.price(30, D1, D1.plusDays(7)));      // 210 * 0.9
-        assertThrows(IllegalArgumentException.class, () -> p.price(30, D4, D1));
+        var p = new PricingEngine(() -> 1.0);
+        assertEquals(189.0, p.price("SUV", 30, D1, D1.plusDays(7)));      // 210 * 0.9 (assuming SUV uses LongTermPricingStrategy)
+        assertThrows(IllegalArgumentException.class, () -> p.price("SUV", 30, D4, D1));
         assertThrows(IllegalArgumentException.class, () -> PricingEngine.days(null, D1));
     }
 
     // ---------------- B ----------------
-    DepositHandler billing() { return new DepositHandler(new BillingRepository(dir), new InsuranceCalculator()); }
+    DepositHandler billing() { return new DepositHandler(new BillingRepository(dir), new InsuranceCalculator(() -> false)); }
 
     @Test void billingHoldsDepositAndQuotesPolicy() {
         var b = billing();
@@ -102,7 +104,7 @@ class SubsystemsStandaloneTest {
     }
 
     @Test void insuranceCalculatorRulesAndDepositRules() {
-        var c = new InsuranceCalculator();
+        var c = new InsuranceCalculator(() -> false);
         assertEquals(15.0, c.premium(InsurancePolicy.Coverage.BASIC, 3, 30));
         assertEquals(54.0, c.premium(InsurancePolicy.Coverage.FULL, 3, 20));    // 36 * 1.5 young driver
         assertThrows(IllegalArgumentException.class, () -> c.premium(InsurancePolicy.Coverage.BASIC, 3, 17));

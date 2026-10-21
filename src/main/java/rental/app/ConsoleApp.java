@@ -6,7 +6,7 @@ import java.util.Scanner;
 import rental.billing.InsurancePolicy;
 import rental.facade.RentalOrder;
 import rental.facade.RentalRequest;
-
+/*add a brand-new facade method that runs only a and b,without c and decide live number whether it needs its own compensation logic*/
 /** Console demo. Run: mvn -q compile exec:java   (reset data: delete the ./data folder). */
 public class ConsoleApp {
     private static final Path DATA = Path.of("data");

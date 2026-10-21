@@ -99,4 +99,5 @@ class RentalFacadeTest {
         rental.aRental().ofType("Luxury").bookExpectingFailure(NoCarAvailableException.class);
         rental.thenLatestOrderIs(FAILED);
     }
+
 }

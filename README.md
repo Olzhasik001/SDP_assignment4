@@ -73,3 +73,27 @@ Our problem is different: the client has no expected interface to match. Three u
 ## Standalone subsystems
 
 `rental.fleet.FleetMain`, `rental.billing.BillingMain`, `rental.handover.HandoverMain` each use one subsystem without the facade or the other two.
+# Assignment 5: Strategy Pattern
+
+## Class Responsibilities
+* **InsuranceStrategy**: Defines the contract for premium calculation.
+* **BasicInsuranceStrategy**: Computes standard premium with young driver surcharge.
+* **FullInsuranceStrategy**: Computes comprehensive premium applying long duration discount.
+* **DynamicWeatherInsuranceStrategy**: Computes premium multiplied by external weather warnings.
+* **InsuranceContext**: Delegates premium calculation to the injected strategy.
+* **InsuranceSelector**: Chooses the correct premium algorithm matching policy coverage.
+* **WeatherService**: Simulates external weather data retrieval.
+* **PricingStrategy**: Defines the contract for rental price calculation.
+* **StandardPricingStrategy**: Computes total price multiplying daily rate with days.
+* **LongTermPricingStrategy**: Computes total price applying duration discounts.
+* **HighDemandPricingStrategy**: Computes total price multiplied by external demand factor.
+* **PricingContext**: Delegates price calculation to the injected strategy.
+* **PricingSelector**: Chooses the correct pricing algorithm matching car type.
+* **FleetDemandService**: Simulates external market demand retrieval.
+
+## Strategy vs State vs Template Method
+The Strategy pattern was selected over State and Template Method because the algorithms representing pricing models need to be entirely interchangeable at runtime via composition without depending on object state transitions. The State pattern is inappropriate here because it encapsulates behavior triggered by transitioning through discrete internal states. Our calculation models are stateless operations returning a computed numeric value. The Template Method relies heavily on inheritance to redefine specific steps of a hardcoded skeletal algorithm. Strategy relies on composition, allowing the Context to remain completely oblivious to the calculation specifics, ensuring seamless integration of future calculation models without modifying existing base classes.
+
+## Refactoring Commits
+* [Before Refactoring (if-else statements)](СЮДА_ВСТАВЬ_ССЫЛКУ_НА_ПЕРВЫЙ_КОММИТ)
+* [After Refactoring (Strategy Pattern applied)](СЮДА_ВСТАВЬ_ССЫЛКУ_НА_ВТОРОЙ_КОММИТ)
