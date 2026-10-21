@@ -95,5 +95,5 @@ Our problem is different: the client has no expected interface to match. Three u
 The Strategy pattern was selected over State and Template Method because the algorithms representing pricing models need to be entirely interchangeable at runtime via composition without depending on object state transitions. The State pattern is inappropriate here because it encapsulates behavior triggered by transitioning through discrete internal states. Our calculation models are stateless operations returning a computed numeric value. The Template Method relies heavily on inheritance to redefine specific steps of a hardcoded skeletal algorithm. Strategy relies on composition, allowing the Context to remain completely oblivious to the calculation specifics, ensuring seamless integration of future calculation models without modifying existing base classes.
 
 ## Refactoring Commits
-* [Before Refactoring (if-else statements)](СЮДА_ВСТАВЬ_ССЫЛКУ_НА_ПЕРВЫЙ_КОММИТ)
-* [After Refactoring (Strategy Pattern applied)](СЮДА_ВСТАВЬ_ССЫЛКУ_НА_ВТОРОЙ_КОММИТ)
+* [Before Refactoring (if-else statements)]77d54d9e05b3d327a8532d90f8ca28fb3798f152
+* [After Refactoring (Strategy Pattern applied)]d1d7a13fff1b6bdb90d3ffbc78b742a58563b2cf
