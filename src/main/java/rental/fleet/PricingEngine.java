@@ -1,9 +1,16 @@
 package rental.fleet;
 
+import rental.fleet.strategy.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class PricingEngine {
+    private final PricingSelector selector;
+
+    public PricingEngine(FleetDemandService demandService) {
+        this.selector = new PricingSelector(demandService);
+    }
+
     public static long days(LocalDate from, LocalDate to) {
         if (from == null || to == null || !to.isAfter(from)) {
             throw new IllegalArgumentException("Return date must be after pick-up date");
@@ -11,10 +18,10 @@ public class PricingEngine {
         return ChronoUnit.DAYS.between(from, to);
     }
 
-    public double price(double dailyRate, LocalDate from, LocalDate to) {
+    public double price(String carType, double dailyRate, LocalDate from, LocalDate to) {
         long days = days(from, to);
-        double total = dailyRate * days;
-        if (days >= 7) total *= 0.9;
-        return Math.round(total * 100.0) / 100.0;
+        PricingStrategy strategy = selector.selectStrategy(carType);
+        PricingContext context = new PricingContext(strategy);
+        return context.executePricing(dailyRate, days);
     }
 }
