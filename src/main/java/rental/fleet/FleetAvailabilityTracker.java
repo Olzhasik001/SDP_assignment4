@@ -17,7 +17,7 @@ public class FleetAvailabilityTracker {
     public Reservation reserve(long orderRef, String carType, LocalDate from, LocalDate to) {
         Car car = repo.findFreeCar(carType, from, to).orElseThrow(() ->
                 new NoCarAvailableException("No free '" + carType + "' car for " + from + ".." + to));
-        return repo.insert(orderRef, car.id(), from, to, pricing.price(car.dailyRate(), from, to));
+        return repo.insert(orderRef, car.id(), from, to, pricing.price(carType, car.dailyRate(), from, to)); //assignment4 task
     }
 
     public void confirm(long orderRef) {
