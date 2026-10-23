@@ -13,8 +13,6 @@ public class InsuranceCalculator {
         if (driverAge < 18) throw new IllegalArgumentException("Driver must be at least 18");
         InsuranceStrategy strategy = selector.selectStrategy(coverage);
         InsuranceContext context = new InsuranceContext(strategy);
-        double premium = context.executePremiumCalculation(days, driverAge);
-        if (driverAge < 25) premium *= 1.5;                        // young driver surcharge (original rule)
-        return Math.round(premium * 100.0) / 100.0;
+        return context.executePremiumCalculation(days, driverAge);
     }
 }
